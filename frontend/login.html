@@ -29,36 +29,47 @@
             <h2>Login Here! 🔑</h2>
             <p class="auth-subtitle">Login to your account</p>
             
-            <form id="loginForm" class="auth-form">
-                <div class="form-group">
-                    <label for="email">Email 📧</label>
-                    <div class="input-group">
-                        <i class="fas fa-envelope"></i>
-                        <input type="email" id="email" name="email" required placeholder="Enter your email">
+            <div class="login-container">
+                <h2>Login to Ajay's Restaurant 🍽️</h2>
+                <div class="notice-box" style="background: #ffeeba; border: 1px solid #ffc107; padding: 15px; margin-bottom: 20px; border-radius: 5px; text-align: center;">
+                    <p style="margin: 0; color: #856404;">📝 This is a demo project</p>
+                    <p style="margin: 5px 0 0 0; color: #856404;">
+                        Default Login:<br>
+                        User ID: 7894<br>
+                        Password: 123
+                    </p>
+                </div>
+                <form id="loginForm" class="auth-form">
+                    <div class="form-group">
+                        <label for="userid">User ID 👤</label>
+                        <div class="input-group">
+                            <i class="fas fa-user"></i>
+                            <input type="text" id="userid" name="userid" required placeholder="Enter User ID (7894)">
+                        </div>
                     </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="password">Password 🔒</label>
-                    <div class="input-group">
-                        <i class="fas fa-lock"></i>
-                        <input type="password" id="password" name="password" required placeholder="Enter your password">
+                    
+                    <div class="form-group">
+                        <label for="password">Password 🔒</label>
+                        <div class="input-group">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="password" name="password" required placeholder="Enter password (123)">
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-options">
-                    <label class="remember-me">
-                        <input type="checkbox" name="remember">
-                        Remember me
-                    </label>
-                    <a href="#" class="forgot-password">Forgot Password?</a>
-                </div>
+                    <div class="form-options">
+                        <label class="remember-me">
+                            <input type="checkbox" name="remember">
+                            Remember me
+                        </label>
+                        <a href="#" class="forgot-password">Forgot Password?</a>
+                    </div>
 
-                <button type="submit" class="auth-button">
-                    <i class="fas fa-sign-in-alt"></i>
-                    Login Now! 🚀
-                </button>
-            </form>
+                    <button type="submit" class="auth-button">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Login Now! 🚀
+                    </button>
+                </form>
+            </div>
 
             <div class="auth-footer">
                 <p>Don't have an account? <a href="register.html">Register here! 📝</a></p>

@@ -30,6 +30,44 @@ document.addEventListener("DOMContentLoaded", () => {
     updateBackground();
 
     // Login form handling
+    document.addEventListener('DOMContentLoaded', function() {
+        const loginForm = document.getElementById('loginForm');
+        if (loginForm) {
+            loginForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const userid = document.getElementById('userid').value;
+                const password = document.getElementById('password').value;
+
+                try {
+                    const response = await fetch('/api/login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ userid, password })
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        // Show success message
+                        showToast('Login successful! 🎉', 'success');
+                        // Redirect to menu page after 1 second
+                        setTimeout(() => {
+                            window.location.href = '/menu.html';
+                        }, 1000);
+                    } else {
+                        showToast(data.message, 'error');
+                    }
+                } catch (error) {
+                    showToast('Login failed. Please try again. ❌', 'error');
+                }
+            });
+        }
+    });
+
+    // Login form handling
     const loginForm = document.getElementById("loginForm");
     if (loginForm) {
         loginForm.addEventListener("submit", handleLogin);
@@ -316,7 +354,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <div class="cart-item">
                         <div class="item-details">
                             <h3>${item.name}</h3>
-                            <p class="price">₹${item.price}</p>
+                            <p>₹${item.price}</p>
                         </div>
                         <div class="quantity-controls">
                             <button class="quantity-btn minus" onclick="updateQuantity(${item.id}, -1)">−</button>

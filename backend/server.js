@@ -97,6 +97,28 @@ app.post("/api/menu", (req, res) => {
     );
 });
 
+// Add login endpoint
+app.post("/api/login", (req, res) => {
+    const { userid, password } = req.body;
+    
+    // Check default credentials
+    if (userid === "7894" && password === "123") {
+        res.json({
+            success: true,
+            message: "Login successful! 🎉",
+            user: {
+                id: "7894",
+                name: "Demo User"
+            }
+        });
+    } else {
+        res.status(401).json({
+            success: false,
+            message: "Invalid credentials! Please use the default login details shown above. 🔒"
+        });
+    }
+});
+
 // Handle all other routes by serving index.html
 app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "../frontend/index.html"));
