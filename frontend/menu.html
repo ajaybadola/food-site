@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu - Zayka</title>
+    <link rel="stylesheet" href="assets/zayka.css">
+    <script src="assets/script.js" defer></script>
+</head>
+<body>
+    <header class="header">
+        <h1>Zayka 🍽️</h1>
+        <nav class="nav">
+            <div class="dropdown">
+                <button class="nav-link dropdown-btn">Categories 📋</button>
+                <div class="dropdown-content">
+                    <a href="#" data-category="all">All Items</a>
+                    <a href="#" data-category="veg">Vegetarian</a>
+                    <a href="#" data-category="non-veg">Non-Vegetarian</a>
+                    <a href="#" data-category="drinks">Beverages</a>
+                </div>
+            </div>
+            <a href="index.html" class="nav-link">Home 🌟</a>
+            <a href="menu.html" class="nav-link">Menu 🍽️</a>
+            <a href="#contact" class="nav-link contact-link">Contact 📞</a>
+            <a href="checkout.html" class="nav-link cart-link">Cart 🛒 <span class="cart-count"></span></a>
+            <a href="login.html" class="nav-link">Login 🔑</a>
+            <a href="#" class="nav-link logout" id="logout">Logout 🚪</a>
+        </nav>
+    </header>
+
+    <section id="menu" class="menu animate__animated animate__fadeInUp">
+        <h2>Our Menu 🍲😋</h2>
+        <div class="menu-items" id="menu-items">
+            <!-- Menu items will be loaded dynamically here -->
+        </div>
+    </section>
+
+    <!-- WhatsApp Contact Button -->
+    <a href="https://wa.me/7818855942" class="whatsapp-button" target="_blank">
+        Order on WhatsApp 📱
+    </a>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact animate__animated animate__fadeInUp">
+        <h2>Contact Us 📲</h2>
+        <p><strong>Ajay Badola 🌟</strong></p>
+        <p>Phone: 9568071070 📞</p>
+        <p>Email: ajaybadolax@gmail.com ✉️</p>
+    </section>
+
+    <footer class="footer animate__animated animate__fadeInUp">
+        <p>© SAMPLE PROJECT BY AJAYBADOLA 2025 🌈</p>
+    </footer>
+</body>
+</html>
