@@ -5,43 +5,76 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Ajay's Restaurant</title>
     <link rel="stylesheet" href="assets/zayka.css">
-    <script src="assets/script.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <header class="header">
-        <h1>Ajay's Restaurant 🍽️</h1>
-        <nav class="nav">
-            <a href="index.html" class="nav-link">Home 🌟</a>
-            <a href="menu.html" class="nav-link">Menu 🍽️</a>
-            <a href="cart.html" class="nav-link cart-link">Cart 🛒 <span class="cart-count"></span></a>
-            <a href="login.html" class="nav-link active">Login 🔑</a>
+        <nav class="navbar">
+            <div class="logo">
+                <a href="index.html">Ajay's Restaurant 🍽️</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home 🏠</a></li>
+                <li><a href="menu.html">Menu 🍴</a></li>
+                <li><a href="contact.html">Contact 📞</a></li>
+                <li><a href="login.html" class="active" id="loginBtn">Login 🔑</a></li>
+                <li><a href="register.html" id="registerBtn">Register 📝</a></li>
+            </ul>
         </nav>
     </header>
 
-    <section class="login-section animate__animated animate__fadeInUp">
-        <div class="login-container">
-            <h2>Welcome Back! 👋</h2>
-            <form id="loginForm" class="login-form" onsubmit="return handleLogin(event)">
+    <main class="auth-container">
+        <div class="auth-box">
+            <h2>Login Here! 🔑</h2>
+            <p class="auth-subtitle">Login to your account</p>
+            
+            <form id="loginForm" class="auth-form">
                 <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" name="username" class="form-input" required>
+                    <label for="email">Email 📧</label>
+                    <div class="input-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="email" name="email" required placeholder="Enter your email">
+                    </div>
                 </div>
+                
                 <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" class="form-input" required>
+                    <label for="password">Password 🔒</label>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="password" name="password" required placeholder="Enter your password">
+                    </div>
                 </div>
-                <button type="submit" class="submit-btn">Login 🔑</button>
-                <p class="form-message" id="loginMessage"></p>
+
+                <div class="form-options">
+                    <label class="remember-me">
+                        <input type="checkbox" name="remember">
+                        Remember me
+                    </label>
+                    <a href="#" class="forgot-password">Forgot Password?</a>
+                </div>
+
+                <button type="submit" class="auth-button">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Login Now! 🚀
+                </button>
             </form>
-            <div class="auth-links">
-                <p>Don't have an account? <a href="register.html">Register here</a></p>
-                <a href="#" class="forgot-password">Forgot Password?</a>
+
+            <div class="auth-footer">
+                <p>Don't have an account? <a href="register.html">Register here! 📝</a></p>
             </div>
         </div>
-    </section>
+    </main>
 
-    <footer class="footer animate__animated animate__fadeInUp">
-        <p> SAMPLE PROJECT BY AJAYBADOLA 2025 </p>
+    <footer class="footer">
+        <div class="contact-info">
+            <p>📍 Clement Town, Dehradun</p>
+            <p>📧 ajaybadolax@gmail.com</p>
+            <p>📞 9568071070</p>
+        </div>
+        <p>© SAMPLE PROJECT BY AJAYBADOLA 2025 🌈</p>
     </footer>
+
+    <script src="assets/script.js"></script>
 </body>
 </html>

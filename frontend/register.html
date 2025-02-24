@@ -3,49 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - Zayka</title>
+    <title>Register - Ajay's Restaurant</title>
     <link rel="stylesheet" href="assets/zayka.css">
-    <script src="assets/script.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <header class="header">
-        <h1>Zayka 🍽️</h1>
-        <nav class="nav">
-            <a href="login.html" class="nav-link">Login 🔑</a>
-            <a href="index.html" class="nav-link">Home 🌟</a>
+        <nav class="navbar">
+            <div class="logo">
+                <a href="index.html">Ajay's Restaurant 🍽️</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home 🏠</a></li>
+                <li><a href="menu.html">Menu 🍴</a></li>
+                <li><a href="contact.html">Contact 📞</a></li>
+                <li><a href="login.html">Login 🔑</a></li>
+                <li><a href="register.html" class="active">Register 📝</a></li>
+            </ul>
         </nav>
     </header>
 
-    <section id="register" class="login animate__animated animate__fadeInUp">
-        <h2>Register for Zayka 📝😊</h2>
-        <form id="registerForm" class="login-form">
-            <div class="form-group">
-                <label for="newUsername">Username: 👤</label>
-                <input type="text" id="newUsername" required class="input animate__animated animate__bounceIn">
-            </div>
-            <div class="form-group">
-                <label for="newPassword">Password: 🔒</label>
-                <input type="password" id="newPassword" required class="input animate__animated animate__bounceIn">
-            </div>
-            <div class="form-group">
-                <label for="confirmPassword">Confirm Password: 🔐</label>
-                <input type="password" id="confirmPassword" required class="input animate__animated animate__bounceIn">
-            </div>
-            <button type="submit" class="btn animate__animated animate__pulse">Register 🚀</button>
-        </form>
-        <p>Already have an account? <a href="login.html" class="link animate__animated animate__fadeIn">Login here 🔑</a></p>
-    </section>
+    <main class="auth-container">
+        <div class="auth-box">
+            <h2>Register Here! 📝</h2>
+            <form id="registerForm" class="auth-form">
+                <div class="form-group">
+                    <label for="username">Username 👤</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
 
-    <!-- Contact Section -->
-    <section id="contact" class="contact animate__animated animate__fadeInUp">
-        <h2>Contact Us 📲</h2>
-        <p><strong>Ajay Badola 🌟</strong></p>
-        <p>Phone: 9568071070 📞</p>
-        <p>Email: ajaybadolax@gmail.com ✉️</p>
-    </section>
+                <div class="form-group">
+                    <label for="email">Email 📧</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password 🔒</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
 
-    <footer class="footer animate__animated animate__fadeInUp">
-        <p>© SAMPLE PROJECT BY AJAYBADOLA 2025 🌈</p>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password 🔐</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                </div>
+
+                <button type="submit" class="auth-button">
+                    Register Now! 🚀
+                </button>
+            </form>
+
+            <div class="auth-footer">
+                <p>Already have an account? <a href="login.html">Login here! 🔑</a></p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p> SAMPLE PROJECT BY AJAYBADOLA 2025 🌈</p>
     </footer>
+
+    <script src="assets/script.js"></script>
 </body>
 </html>

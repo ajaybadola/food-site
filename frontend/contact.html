@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Ajay's Restaurant</title>
+    <link rel="stylesheet" href="assets/zayka.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <div class="logo">
+                <a href="index.html">Ajay's Restaurant 🍽️</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home 🏠</a></li>
+                <li><a href="menu.html">Menu 🍴</a></li>
+                <li><a href="contact.html" class="active">Contact 📞</a></li>
+                <li><a href="login.html" id="loginBtn">Login 🔑</a></li>
+                <li><a href="register.html" id="registerBtn">Register 📝</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="contact-container">
+        <h1>Contact Us 📞</h1>
+        <p>We'd love to hear from you!</p>
+
+        <div class="contact-grid">
+            <div class="contact-card">
+                <i class="fas fa-map-marker-alt"></i>
+                <h3>Visit Us 🏠</h3>
+                <p>Clement Town</p>
+                <p>Dehradun</p>
+            </div>
+
+            <div class="contact-card">
+                <i class="fas fa-phone"></i>
+                <h3>Call Us 📞</h3>
+                <p>9568071070</p>
+            </div>
+
+            <div class="contact-card">
+                <i class="fas fa-envelope"></i>
+                <h3>Email Us 📧</h3>
+                <p>ajaybadolax@gmail.com</p>
+            </div>
+        </div>
+
+        <div class="contact-form">
+            <h2>Send us a Message 💌</h2>
+            <form id="messageForm">
+                <div class="form-group">
+                    <label for="name">Your Name 👤</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Your Email 📧</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Your Message 💭</label>
+                    <textarea id="message" name="message" required></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    Send Message 📤
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="contact-info">
+            <p>📍 Clement Town, Dehradun</p>
+            <p>📧 ajaybadolax@gmail.com</p>
+            <p>📞 9568071070</p>
+        </div>
+        <p>© SAMPLE PROJECT BY AJAYBADOLA 2025 🌈</p>
+    </footer>
+
+    <script src="assets/script.js"></script>
+</body>
+</html>

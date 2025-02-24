@@ -313,7 +313,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 emptyCart.style.display = 'none';
                 
                 cartItems.innerHTML = cart.map(item => `
-                    <div class="cart-item" data-id="${item.id}">
+                    <div class="cart-item">
                         <div class="item-details">
                             <h3>${item.name}</h3>
                             <p class="price">₹${item.price}</p>
@@ -537,6 +537,129 @@ document.addEventListener("DOMContentLoaded", () => {
             window.location.href = "login.html";
         }
     }
+
+    // Dark Mode Toggle
+    function initThemeToggle() {
+        const themeSwitch = document.createElement('button');
+        themeSwitch.className = 'theme-switch';
+        themeSwitch.innerHTML = '';
+        document.body.appendChild(themeSwitch);
+
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', currentTheme);
+        themeSwitch.innerHTML = currentTheme === 'light' ? '' : '';
+
+        themeSwitch.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            themeSwitch.innerHTML = newTheme === 'light' ? '' : '';
+            
+            showToast('Theme changed! ', 'success');
+        });
+    }
+
+    // Toast Notifications
+    function initToastContainer() {
+        const container = document.createElement('div');
+        container.className = 'toast-container';
+        document.body.appendChild(container);
+    }
+
+    function showToast(message, type = 'success') {
+        const container = document.querySelector('.toast-container');
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        toast.innerHTML = `
+            ${type === 'success' ? '' : ''}
+            <span>${message}</span>
+        `;
+        container.appendChild(toast);
+
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
+    }
+
+    // Back to Top Button
+    function initBackToTop() {
+        const backToTop = document.createElement('button');
+        backToTop.className = 'back-to-top';
+        backToTop.innerHTML = '';
+        document.body.appendChild(backToTop);
+
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTop.classList.add('show');
+            } else {
+                backToTop.classList.remove('show');
+            }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
+
+    // Loading Spinner
+    function showLoading() {
+        const spinner = document.createElement('div');
+        spinner.className = 'loading-spinner';
+        spinner.innerHTML = '<div class="spinner"></div>';
+        document.body.appendChild(spinner);
+        setTimeout(() => spinner.classList.add('show'), 0);
+    }
+
+    function hideLoading() {
+        const spinner = document.querySelector('.loading-spinner');
+        if (spinner) {
+            spinner.classList.remove('show');
+            setTimeout(() => spinner.remove(), 300);
+        }
+    }
+
+    // Initialize Features
+    initThemeToggle();
+    initToastContainer();
+    initBackToTop();
+
+    // Add loading animation for page transitions
+    document.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            if (!link.getAttribute('href').startsWith('#')) {
+                showLoading();
+            }
+        });
+    });
+
+    // Add form submission handlers
+    const forms = document.querySelectorAll('form');
+    forms.forEach(form => {
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            showLoading();
+            setTimeout(() => {
+                hideLoading();
+                showToast('Form submitted successfully! ', 'success');
+                form.reset();
+            }, 1000);
+        });
+    });
+
+    // Parallax effect for hero section
+    document.addEventListener("scroll", () => {
+        const hero = document.querySelector(".hero[data-parallax]");
+        if (hero) {
+            const scrollPosition = window.scrollY;
+            hero.style.backgroundPositionY = `${-scrollPosition * 0.3}px`;
+        }
+    });
 });
 
 // Function to display cart on checkout.html
@@ -583,9 +706,9 @@ function displayCart() {
             if (couponCode === "AJAY50") {
                 total -= 20; // Reduce price by 20 rupees
                 cartItems.innerHTML += `<p class="success animate__animated animate__fadeIn">Total (after coupon): ₹${total.toFixed(2)}</p>`;
-                showMessage("Coupon applied successfully! Price reduced by ₹20. 🎉", 'success');
+                showToast("Coupon applied successfully! Price reduced by ₹20. 🎉", 'success');
             } else {
-                showMessage("Invalid coupon code! 😔", 'error');
+                showToast("Invalid coupon code! 😔", 'error');
             }
         });
     }
@@ -621,11 +744,11 @@ function displayCart() {
         placeOrderButton.addEventListener("click", () => {
             const cart = JSON.parse(localStorage.getItem("cart")) || [];
             if (cart.length > 0) {
-                showMessage("Order placed successfully! Thank you for choosing Zayka. 🚚🎉", 'success');
+                showToast("Order placed successfully! Thank you for choosing Zayka. 🚚🎉", 'success');
                 localStorage.removeItem("cart"); // Clear cart after order
                 displayCart(); // Update cart display
             } else {
-                showMessage("Your cart is empty! 🛒😔", 'error');
+                showToast("Your cart is empty! 🛒😔", 'error');
             }
         });
     }
@@ -724,12 +847,3 @@ function handleLogout(event) {
 }
 
 checkLoginStatus();
-
-// Parallax effect for hero section
-document.addEventListener("scroll", () => {
-    const hero = document.querySelector(".hero[data-parallax]");
-    if (hero) {
-        const scrollPosition = window.scrollY;
-        hero.style.backgroundPositionY = `${-scrollPosition * 0.3}px`;
-    }
-});
