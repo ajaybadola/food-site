@@ -1,15 +1,15 @@
 services:
   - type: web
     name: food-site
-    env: node
-    buildCommand: npm install
-    startCommand: npm start
+    runtime: node
+    buildCommand: yarn
+    startCommand: yarn start
     nodeVersion: 18.x
     envVars:
       - key: NODE_ENV
         value: production
       - key: PORT
-        value: 3000
+        value: 10000
     staticPublishPath: ./frontend
     routes:
       - type: rewrite
