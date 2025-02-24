@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: food-site
+    env: static
+    buildCommand: npm install
+    staticPublishPath: ./frontend
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
