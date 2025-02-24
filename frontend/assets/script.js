@@ -30,110 +30,66 @@ document.addEventListener("DOMContentLoaded", () => {
     updateBackground();
 
     // Login form handling
-    document.addEventListener('DOMContentLoaded', function() {
-        const loginForm = document.getElementById('loginForm');
-        if (loginForm) {
-            loginForm.addEventListener('submit', async function(e) {
-                e.preventDefault();
-                
-                const userid = document.getElementById('userid').value;
-                const password = document.getElementById('password').value;
-
-                try {
-                    const response = await fetch('/api/login', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ userid, password })
-                    });
-
-                    const data = await response.json();
-
-                    if (data.success) {
-                        // Show success message
-                        showToast('Login successful! 🎉', 'success');
-                        // Redirect to menu page after 1 second
-                        setTimeout(() => {
-                            window.location.href = '/menu.html';
-                        }, 1000);
-                    } else {
-                        showToast(data.message, 'error');
-                    }
-                } catch (error) {
-                    showToast('Login failed. Please try again. ❌', 'error');
-                }
-            });
-        }
-    });
-
-    // Login form handling
-    const loginForm = document.getElementById("loginForm");
+    const loginForm = document.getElementById('loginForm');
     if (loginForm) {
-        loginForm.addEventListener("submit", handleLogin);
-    }
+        loginForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const userid = document.getElementById('userid').value;
+            const password = document.getElementById('password').value;
 
-    function handleLogin(event) {
-        event.preventDefault();
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
-        const messageElement = document.getElementById('loginMessage');
+            // Simple validation for demo credentials
+            if (userid === '7894' && password === '123') {
+                // Create success popup
+                const popup = document.createElement('div');
+                popup.className = 'login-popup';
+                popup.innerHTML = `
+                    <div class="login-popup-content">
+                        <h2>🎉 Login Successful! 🎉</h2>
+                        <p>Welcome back, foodie! Get ready to explore some amazing dishes!</p>
+                        <div class="popup-emoji">🍕 🍔 🍜</div>
+                    </div>
+                `;
+                document.body.appendChild(popup);
 
-        // Simple validation
-        if (!username || !password) {
-            showFormMessage('Please fill in all fields', 'error');
-            return false;
-        }
-
-        // Here you would typically make an API call to your backend
-        // For demo purposes, we'll use a simple check
-        if (username === 'demo' && password === 'demo123') {
-            showFormMessage('Login successful! Redirecting...', 'success');
-            localStorage.setItem('isLoggedIn', 'true');
-            localStorage.setItem('username', username);
-            setTimeout(() => {
-                window.location.href = 'index.html';
-            }, 1500);
-        } else {
-            showFormMessage('Invalid username or password', 'error');
-        }
-
-        return false;
-    }
-
-    function showFormMessage(message, type) {
-        const messageElement = document.getElementById('loginMessage');
-        if (messageElement) {
-            messageElement.textContent = message;
-            messageElement.className = `form-message ${type}`;
-        }
-    }
-
-    function checkLoginStatus() {
-        const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-        const logoutBtn = document.getElementById('logout');
-        const loginBtn = document.querySelector('a[href="login.html"]');
-
-        if (isLoggedIn) {
-            if (loginBtn) loginBtn.style.display = 'none';
-            if (logoutBtn) {
-                logoutBtn.style.display = 'block';
-                logoutBtn.addEventListener('click', handleLogout);
+                // Store login state
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('userName', 'Demo User');
+                
+                // Remove popup and redirect after animation
+                setTimeout(() => {
+                    popup.classList.add('fade-out');
+                    setTimeout(() => {
+                        document.body.removeChild(popup);
+                        window.location.href = 'menu.html';
+                    }, 500);
+                }, 2000);
+            } else {
+                showToast('Invalid credentials! Please use ID: 7894 and Password: 123', 'error');
             }
-        } else {
-            if (loginBtn) loginBtn.style.display = 'block';
-            if (logoutBtn) logoutBtn.style.display = 'none';
-        }
+        });
     }
 
-    function handleLogout(event) {
-        event.preventDefault();
-        localStorage.removeItem('isLoggedIn');
-        localStorage.removeItem('username');
-        window.location.href = 'login.html';
-    }
+    function showToast(message, type = 'info') {
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type}`;
+        toast.textContent = message;
+        document.body.appendChild(toast);
 
-    checkLoginStatus();
+        // Trigger reflow
+        toast.offsetHeight;
+
+        // Add visible class
+        toast.classList.add('visible');
+
+        // Remove after 3 seconds
+        setTimeout(() => {
+            toast.classList.remove('visible');
+            setTimeout(() => {
+                document.body.removeChild(toast);
+            }, 300);
+        }, 3000);
+    }
 
     // Menu items data with local images
     const menuData = {

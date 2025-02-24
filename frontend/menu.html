@@ -10,10 +10,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div class="project-info">
+        This is a demo project created by Ajay Badola. Free to use and modify! 
+        <a href="https://github.com/ajaybadola/food-site" target="_blank">View on GitHub</a>
+    </div>
     <header class="header">
         <nav class="navbar">
             <div class="logo">
-                <a href="index.html">Ajay's Restaurant 🍽️</a>
+                <a href="index.html">Ajay's Restaurant </a>
             </div>
             <ul class="nav-links">
                 <li><a href="index.html">Home 🏠</a></li>
@@ -21,6 +25,7 @@
                 <li><a href="contact.html">Contact 📞</a></li>
                 <li><a href="login.html" id="loginBtn">Login 🔑</a></li>
                 <li><a href="register.html" id="registerBtn">Register 📝</a></li>
+                <li><a href="credits.html">Credits 🎬</a></li>
             </ul>
             <div class="cart-icon">
                 <i class="fas fa-shopping-cart"></i>
@@ -31,15 +36,15 @@
 
     <main>
         <section class="menu-hero">
-            <h1>Our Menu 🍽️</h1>
+            <h1>Our Menu </h1>
             <p>Discover our delicious dishes!</p>
         </section>
 
         <section class="menu-container">
             <div class="category-nav">
-                <button class="category-btn active" data-category="all">All Items 🍴</button>
-                <button class="category-btn" data-category="non-veg">Non-Veg 🍗</button>
-                <button class="category-btn" data-category="veg">Veg 🥗</button>
+                <button class="category-btn active" data-category="all">All Items </button>
+                <button class="category-btn" data-category="non-veg">Non-Veg </button>
+                <button class="category-btn" data-category="veg">Veg </button>
             </div>
 
             <div id="menuContainer" class="menu-items">
@@ -50,7 +55,7 @@
 
     <div id="cartSidebar" class="cart-sidebar">
         <div class="cart-header">
-            <h3>Your Cart 🛒</h3>
+            <h3>Your Cart </h3>
             <button class="close-cart">×</button>
         </div>
         <div id="cartItems" class="cart-items">
@@ -74,19 +79,22 @@
                 <span id="total">₹0.00</span>
             </div>
             <button class="checkout-btn">
-                Proceed to Checkout 🛍️
+                Proceed to Checkout 
             </button>
         </div>
     </div>
 
     <footer class="footer">
         <div class="contact-info">
-            <p>📍 Clement Town, Dehradun</p>
-            <p>📧 ajaybadolax@gmail.com</p>
-            <p>📞 9568071070</p>
+            <p> Clement Town, Dehradun | ajaybadolax@gmail.com | 9568071070</p>
         </div>
-        <p>© SAMPLE PROJECT BY AJAYBADOLA 2025 🌈</p>
+        <p> SAMPLE PROJECT BY AJAYBADOLA 2025 </p>
     </footer>
+
+    <!-- WhatsApp Button -->
+    <a href="https://wa.me/919568071070" class="whatsapp-btn" target="_blank" title="Chat on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
 
     <script src="assets/script.js"></script>
 </body>
