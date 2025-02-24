@@ -3,45 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menu - Ajay's Restaurant</title>
+    <title>Menu - Zayka Restaurant</title>
     <link rel="stylesheet" href="assets/zayka.css">
-    <script src="assets/script.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header class="header">
-        <h1>Ajay's Restaurant 🍽️</h1>
-        <nav class="nav">
-            <div class="dropdown">
-                <button class="nav-link dropdown-btn">Categories 📋</button>
-                <div class="dropdown-content">
-                    <a href="#" data-category="all">All Items</a>
-                    <a href="#" data-category="veg">Vegetarian</a>
-                    <a href="#" data-category="non-veg">Non-Vegetarian</a>
-                    <a href="#" data-category="drinks">Beverages</a>
-                </div>
-            </div>
-            <a href="index.html" class="nav-link">Home 🌟</a>
-            <a href="menu.html" class="nav-link">Menu 🍽️</a>
-            <a href="cart.html" class="nav-link cart-link">Cart 🛒 <span class="cart-count"></span></a>
-            <a href="login.html" class="nav-link">Login 🔑</a>
-            <a href="#" class="nav-link logout" id="logout">Logout 🚪</a>
-        </nav>
-    </header>
+    <nav class="navbar">
+        <div class="logo">
+            <a href="index.html">Zayka</a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="menu.html" class="active">Menu</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="login.html" id="loginBtn">Login</a></li>
+            <li><a href="register.html" id="registerBtn">Register</a></li>
+        </ul>
+        <div class="cart-icon">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-count">0</span>
+        </div>
+    </nav>
 
-    <section id="menu" class="menu animate__animated animate__fadeInUp">
-        <h2>Our Menu 🍲😋</h2>
-        <div class="menu-items" id="menu-items">
-            <!-- Menu items will be loaded dynamically here -->
+    <div class="menu-hero">
+        <h1>Our Menu</h1>
+        <p>Discover the taste of tradition</p>
+    </div>
+
+    <div class="category-nav">
+        <button class="category-btn active" data-category="all">All Items</button>
+        <button class="category-btn" data-category="non-veg">Non-Veg</button>
+        <button class="category-btn" data-category="veg">Veg</button>
+    </div>
+
+    <section class="menu">
+        <div class="menu-items" id="menuContainer">
+            <!-- Menu items will be dynamically added here -->
         </div>
     </section>
 
-    <!-- WhatsApp Contact Button -->
-    <a href="https://wa.me/7818855942" class="whatsapp-button" target="_blank">
-        Order on WhatsApp 📱
-    </a>
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>Your Order</h3>
+            <button class="close-cart"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <!-- Cart items will be added here -->
+        </div>
+        <div class="cart-summary">
+            <div class="summary-row">
+                <span>Subtotal</span>
+                <span id="subtotal">₹0</span>
+            </div>
+            <div class="summary-row">
+                <span>Tax (5%)</span>
+                <span id="tax">₹0</span>
+            </div>
+            <div class="summary-row">
+                <span>Delivery</span>
+                <span id="delivery">₹40</span>
+            </div>
+            <div class="summary-row total">
+                <span>Total</span>
+                <span id="total">₹0</span>
+            </div>
+        </div>
+        <button class="checkout-btn">
+            <i class="fas fa-shopping-bag"></i>
+            Checkout Now
+        </button>
+    </div>
 
-    <footer class="footer animate__animated animate__fadeInUp">
-        <p>© SAMPLE PROJECT BY AJAYBADOLA 2025 🌈</p>
-    </footer>
+    <script src="assets/script.js"></script>
 </body>
 </html>

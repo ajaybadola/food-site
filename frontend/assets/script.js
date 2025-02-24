@@ -97,63 +97,80 @@ document.addEventListener("DOMContentLoaded", () => {
 
     checkLoginStatus();
 
-    // Menu items data with images
+    // Menu items data with local images
     const menuData = {
         "Butter Chicken": {
             price: 320,
             description: "Creamy, rich curry with tender chicken pieces",
-            image: "https://www.licious.in/blog/wp-content/uploads/2020/10/butter-chicken-.jpg",
+            image: "assets/images/menu/butter-chicken.jpg",
             category: "non-veg"
         },
         "Paneer Tikka": {
             price: 280,
             description: "Grilled cottage cheese with spices",
-            image: "https://www.vegrecipesofindia.com/wp-content/uploads/2019/07/paneer-tikka-recipe-2.jpg",
+            image: "assets/images/menu/paneer-tikka.jpg",
             category: "veg"
         },
         "Dal Makhani": {
             price: 220,
             description: "Creamy black lentils cooked overnight",
-            image: "https://www.vegrecipesofindia.com/wp-content/uploads/2019/05/dal-makhani-recipe-1.jpg",
+            image: "assets/images/menu/dal-makhani.jpg",
             category: "veg"
         },
         "Chicken Biryani": {
             price: 350,
             description: "Fragrant rice with tender chicken and aromatic spices",
-            image: "https://www.licious.in/blog/wp-content/uploads/2022/06/chicken-biryani-01.jpg",
+            image: "assets/images/menu/chicken-biryani.jpg",
             category: "non-veg"
         },
         "Malai Kofta": {
             price: 260,
             description: "Soft potato dumplings in rich creamy gravy",
-            image: "https://www.vegrecipesofindia.com/wp-content/uploads/2019/04/malai-kofta-recipe-1.jpg",
+            image: "assets/images/menu/malai-kofta.jpg",
             category: "veg"
         },
         "Tandoori Roti": {
             price: 40,
             description: "Whole wheat bread baked in tandoor",
-            image: "https://www.vegrecipesofindia.com/wp-content/uploads/2019/06/tandoori-roti-recipe-1.jpg",
+            image: "assets/images/menu/tandoori-roti.jpg",
             category: "veg"
         }
     };
 
-    const menuContainer = document.getElementById("menu-items");
+    const menuContainer = document.getElementById("menuContainer");
+    const cartSidebar = document.getElementById('cartSidebar');
+    const cartItems = document.getElementById('cartItems');
+    const cartCount = document.querySelector('.cart-count');
+    const categoryBtns = document.querySelectorAll('.category-btn');
+    const cartIcon = document.querySelector('.cart-icon');
+    const closeCart = document.querySelector('.close-cart');
 
-    function displayMenuItems() {
+    let cart = [];
+
+    function displayMenuItems(category = 'all') {
         if (!menuContainer) return;
         
         menuContainer.innerHTML = "";
         Object.entries(menuData).forEach(([name, details]) => {
-            const menuItem = document.createElement("div");
-            menuItem.classList.add("menu-item", "animate__animated", "animate__fadeIn");
-            menuItem.innerHTML = `
-                <div class="menu-item-image">
-                    <img src="${details.image}" alt="${name}" loading="lazy">
-                </div>
-                <div class="menu-item-content">
-                    <h3>${name}</h3>
-                    <p class="description">${details.description}</p>
-                    <div class="menu-item-footer">
+            if (category === 'all' || details.category === category) {
+                const menuItem = document.createElement("div");
+                menuItem.classList.add("menu-item", "animate__animated", "animate__fadeIn");
+                menuItem.setAttribute('data-category', details.category);
+                
+                menuItem.innerHTML = `
+                    <div class="menu-item-image">
+                        <div class="image-placeholder">
+                            <div class="loading-spinner"></div>
+                        </div>
+                        <img src="${details.image}" 
+                             alt="${name}" 
+                             loading="lazy" 
+                             onload="this.parentElement.querySelector('.image-placeholder').style.display='none'"
+                             onerror="this.src='assets/images/menu/placeholder.jpg'">
+                    </div>
+                    <div class="menu-item-content">
+                        <h3>${name}</h3>
+                        <p class="description">${details.description}</p>
                         <p class="price">₹${details.price}</p>
                         <button class="add-to-cart-btn" onclick="addToCart({
                             id: '${name.replace(/\s+/g, '_')}',
@@ -164,13 +181,95 @@ document.addEventListener("DOMContentLoaded", () => {
                             Add to Cart
                         </button>
                     </div>
-                </div>
-            `;
-            menuContainer.appendChild(menuItem);
+                `;
+                
+                menuContainer.appendChild(menuItem);
+            }
         });
     }
 
+    categoryBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            categoryBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            displayMenuItems(btn.dataset.category);
+        });
+    });
+
+    function addToCart(item) {
+        const existingItem = cart.find(i => i.id === item.id);
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            cart.push({ ...item, quantity: 1 });
+        }
+        updateCart();
+        showCartSidebar();
+    }
+
+    function removeFromCart(itemId) {
+        cart = cart.filter(item => item.id !== itemId);
+        updateCart();
+    }
+
+    function updateQuantity(itemId, delta) {
+        const item = cart.find(i => i.id === itemId);
+        if (item) {
+            item.quantity += delta;
+            if (item.quantity <= 0) {
+                removeFromCart(itemId);
+            }
+        }
+        updateCart();
+    }
+
+    function updateCart() {
+        // Update cart count
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        cartCount.textContent = totalItems;
+
+        // Update cart items display
+        if (cartItems) {
+            cartItems.innerHTML = cart.map(item => `
+                <div class="cart-item">
+                    <div class="cart-item-details">
+                        <h4>${item.name}</h4>
+                        <p>₹${item.price} x ${item.quantity}</p>
+                    </div>
+                    <div class="cart-item-actions">
+                        <button onclick="updateQuantity('${item.id}', -1)">-</button>
+                        <span>${item.quantity}</span>
+                        <button onclick="updateQuantity('${item.id}', 1)">+</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Update summary
+        const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        const tax = subtotal * 0.05;
+        const delivery = subtotal > 0 ? 40 : 0;
+        const total = subtotal + tax + delivery;
+
+        document.getElementById('subtotal').textContent = `₹${subtotal.toFixed(2)}`;
+        document.getElementById('tax').textContent = `₹${tax.toFixed(2)}`;
+        document.getElementById('delivery').textContent = `₹${delivery}`;
+        document.getElementById('total').textContent = `₹${total.toFixed(2)}`;
+    }
+
+    function showCartSidebar() {
+        cartSidebar.style.right = '0';
+    }
+
+    function hideCartSidebar() {
+        cartSidebar.style.right = '-400px';
+    }
+
+    cartIcon.addEventListener('click', showCartSidebar);
+    closeCart.addEventListener('click', hideCartSidebar);
+
     displayMenuItems();
+    updateCart();
 
     // Cart functionality
     function addToCart(item) {
