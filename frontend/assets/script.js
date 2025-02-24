@@ -32,95 +32,151 @@ document.addEventListener("DOMContentLoaded", () => {
     // Login form handling
     const loginForm = document.getElementById("loginForm");
     if (loginForm) {
-        loginForm.addEventListener("submit", (e) => {
-            e.preventDefault();
-            const username = document.getElementById("username").value;
-            const password = document.getElementById("password").value;
-
-            if (username && password) {
-                localStorage.setItem("isLoggedIn", "true");
-                localStorage.setItem("username", username);
-                window.location.href = "menu.html";
-            } else {
-                showMessage("Please fill in all fields", "error");
-            }
-        });
+        loginForm.addEventListener("submit", handleLogin);
     }
 
-    // Menu items display and filtering
-    const menuContainer = document.getElementById("menu-items");
-    let allMenuItems = [];
+    function handleLogin(event) {
+        event.preventDefault();
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const messageElement = document.getElementById('loginMessage');
 
-    if (menuContainer) {
-        fetch("/api/menu")
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                allMenuItems = data;
-                displayMenuItems(data);
-            })
-            .catch(error => {
-                console.error("Error fetching menu:", error);
-                menuContainer.innerHTML = "<p>Error loading menu items. Please try again.</p>";
-            });
-    }
-
-    // Category filtering
-    document.querySelectorAll('.dropdown-content a').forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const category = e.target.getAttribute('data-category');
-            filterMenuItems(category);
-        });
-    });
-
-    function filterMenuItems(category) {
-        if (!allMenuItems.length) return;
-
-        let filteredItems = allMenuItems;
-        if (category !== 'all') {
-            filteredItems = allMenuItems.filter(item => {
-                if (category === 'veg') {
-                    return !item.name.toLowerCase().includes('chicken') && 
-                           !item.name.toLowerCase().includes('mutton');
-                } else if (category === 'non-veg') {
-                    return item.name.toLowerCase().includes('chicken') || 
-                           item.name.toLowerCase().includes('mutton');
-                }
-                return true;
-            });
+        // Simple validation
+        if (!username || !password) {
+            showFormMessage('Please fill in all fields', 'error');
+            return false;
         }
-        displayMenuItems(filteredItems);
+
+        // Here you would typically make an API call to your backend
+        // For demo purposes, we'll use a simple check
+        if (username === 'demo' && password === 'demo123') {
+            showFormMessage('Login successful! Redirecting...', 'success');
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('username', username);
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 1500);
+        } else {
+            showFormMessage('Invalid username or password', 'error');
+        }
+
+        return false;
     }
 
-    function displayMenuItems(items) {
+    function showFormMessage(message, type) {
+        const messageElement = document.getElementById('loginMessage');
+        if (messageElement) {
+            messageElement.textContent = message;
+            messageElement.className = `form-message ${type}`;
+        }
+    }
+
+    function checkLoginStatus() {
+        const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        const logoutBtn = document.getElementById('logout');
+        const loginBtn = document.querySelector('a[href="login.html"]');
+
+        if (isLoggedIn) {
+            if (loginBtn) loginBtn.style.display = 'none';
+            if (logoutBtn) {
+                logoutBtn.style.display = 'block';
+                logoutBtn.addEventListener('click', handleLogout);
+            }
+        } else {
+            if (loginBtn) loginBtn.style.display = 'block';
+            if (logoutBtn) logoutBtn.style.display = 'none';
+        }
+    }
+
+    function handleLogout(event) {
+        event.preventDefault();
+        localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('username');
+        window.location.href = 'login.html';
+    }
+
+    checkLoginStatus();
+
+    // Menu items data with images
+    const menuData = {
+        "Butter Chicken": {
+            price: 320,
+            description: "Creamy, rich curry with tender chicken pieces",
+            image: "https://www.licious.in/blog/wp-content/uploads/2020/10/butter-chicken-.jpg",
+            category: "non-veg"
+        },
+        "Paneer Tikka": {
+            price: 280,
+            description: "Grilled cottage cheese with spices",
+            image: "https://www.vegrecipesofindia.com/wp-content/uploads/2019/07/paneer-tikka-recipe-2.jpg",
+            category: "veg"
+        },
+        "Dal Makhani": {
+            price: 220,
+            description: "Creamy black lentils cooked overnight",
+            image: "https://www.vegrecipesofindia.com/wp-content/uploads/2019/05/dal-makhani-recipe-1.jpg",
+            category: "veg"
+        },
+        "Chicken Biryani": {
+            price: 350,
+            description: "Fragrant rice with tender chicken and aromatic spices",
+            image: "https://www.licious.in/blog/wp-content/uploads/2022/06/chicken-biryani-01.jpg",
+            category: "non-veg"
+        },
+        "Malai Kofta": {
+            price: 260,
+            description: "Soft potato dumplings in rich creamy gravy",
+            image: "https://www.vegrecipesofindia.com/wp-content/uploads/2019/04/malai-kofta-recipe-1.jpg",
+            category: "veg"
+        },
+        "Tandoori Roti": {
+            price: 40,
+            description: "Whole wheat bread baked in tandoor",
+            image: "https://www.vegrecipesofindia.com/wp-content/uploads/2019/06/tandoori-roti-recipe-1.jpg",
+            category: "veg"
+        }
+    };
+
+    const menuContainer = document.getElementById("menu-items");
+
+    function displayMenuItems() {
         if (!menuContainer) return;
         
         menuContainer.innerHTML = "";
-        items.forEach(item => {
+        Object.entries(menuData).forEach(([name, details]) => {
             const menuItem = document.createElement("div");
             menuItem.classList.add("menu-item", "animate__animated", "animate__fadeIn");
             menuItem.innerHTML = `
-                <h3>${item.name}</h3>
-                <p class="description">${item.description || ''}</p>
-                <p class="price">₹${item.price}</p>
-                <button class="add-to-cart" data-id="${item.id}" data-name="${item.name}" data-price="${item.price}">
-                    Add to Cart 🛒
-                </button>
+                <div class="menu-item-image">
+                    <img src="${details.image}" alt="${name}" loading="lazy">
+                </div>
+                <div class="menu-item-content">
+                    <h3>${name}</h3>
+                    <p class="description">${details.description}</p>
+                    <div class="menu-item-footer">
+                        <p class="price">₹${details.price}</p>
+                        <button class="add-to-cart-btn" onclick="addToCart({
+                            id: '${name.replace(/\s+/g, '_')}',
+                            name: '${name}',
+                            price: ${details.price}
+                        })">
+                            <i class="fas fa-cart-plus"></i>
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
             `;
             menuContainer.appendChild(menuItem);
         });
     }
 
+    displayMenuItems();
+
     // Cart functionality
     function addToCart(item) {
         let cart = JSON.parse(localStorage.getItem("cart")) || [];
-        const existingItem = cart.find(i => i.id === item.id);
-
+        
+        const existingItem = cart.find(cartItem => cartItem.id === item.id);
         if (existingItem) {
             existingItem.quantity += 1;
         } else {
@@ -129,6 +185,103 @@ document.addEventListener("DOMContentLoaded", () => {
 
         localStorage.setItem("cart", JSON.stringify(cart));
         showMessage(`${item.name} added to cart!`, 'success');
+        updateCartDisplay();
+    }
+
+    function updateCartDisplay() {
+        const cartCount = document.querySelector(".cart-count");
+        const cart = JSON.parse(localStorage.getItem("cart")) || [];
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        
+        if (cartCount) {
+            cartCount.textContent = totalItems || '';
+            cartCount.style.display = totalItems ? 'flex' : 'none';
+        }
+
+        // Update cart page if we're on it
+        const cartItems = document.getElementById("cart-items");
+        const cartSummary = document.querySelector(".cart-summary");
+        const emptyCart = document.getElementById("empty-cart");
+        
+        if (cartItems && emptyCart) {
+            if (cart.length === 0) {
+                cartItems.parentElement.style.display = 'none';
+                cartSummary.style.display = 'none';
+                emptyCart.style.display = 'flex';
+            } else {
+                cartItems.parentElement.style.display = 'block';
+                cartSummary.style.display = 'block';
+                emptyCart.style.display = 'none';
+                
+                cartItems.innerHTML = cart.map(item => `
+                    <div class="cart-item" data-id="${item.id}">
+                        <div class="item-details">
+                            <h3>${item.name}</h3>
+                            <p class="price">₹${item.price}</p>
+                        </div>
+                        <div class="quantity-controls">
+                            <button class="quantity-btn minus" onclick="updateQuantity(${item.id}, -1)">−</button>
+                            <span class="quantity">${item.quantity}</span>
+                            <button class="quantity-btn plus" onclick="updateQuantity(${item.id}, 1)">+</button>
+                        </div>
+                        <p class="item-total">₹${(item.price * item.quantity).toFixed(2)}</p>
+                        <button class="remove-btn" onclick="removeFromCart(${item.id})"></button>
+                    </div>
+                `).join('');
+                
+                updateCartSummary();
+            }
+        }
+    }
+
+    function updateCartSummary() {
+        const cart = JSON.parse(localStorage.getItem("cart")) || [];
+        const subtotalElement = document.getElementById("subtotal");
+        const taxElement = document.getElementById("tax");
+        const deliveryElement = document.getElementById("delivery");
+        const totalElement = document.getElementById("total");
+
+        if (subtotalElement && taxElement && deliveryElement && totalElement) {
+            const subtotal = cart.reduce((sum, item) => {
+                return sum + (parseFloat(item.price) * parseInt(item.quantity));
+            }, 0);
+            
+            const tax = subtotal * 0.05; // 5% tax
+            const delivery = subtotal > 0 ? 40 : 0; // ₹40 delivery fee if cart not empty
+            const total = subtotal + tax + delivery;
+
+            subtotalElement.textContent = `₹${subtotal.toFixed(2)}`;
+            taxElement.textContent = `₹${tax.toFixed(2)}`;
+            deliveryElement.textContent = `₹${delivery.toFixed(2)}`;
+            totalElement.textContent = `₹${total.toFixed(2)}`;
+
+            // Update checkout button state
+            const checkoutBtn = document.getElementById("checkout-btn");
+            if (checkoutBtn) {
+                checkoutBtn.disabled = subtotal === 0;
+                checkoutBtn.style.opacity = subtotal === 0 ? "0.5" : "1";
+            }
+        }
+    }
+
+    function updateQuantity(itemId, change) {
+        const cart = JSON.parse(localStorage.getItem("cart")) || [];
+        const itemIndex = cart.findIndex(item => item.id === itemId);
+        
+        if (itemIndex !== -1) {
+            cart[itemIndex].quantity = Math.max(0, cart[itemIndex].quantity + change);
+            if (cart[itemIndex].quantity === 0) {
+                cart.splice(itemIndex, 1);
+            }
+            localStorage.setItem("cart", JSON.stringify(cart));
+            updateCartDisplay();
+        }
+    }
+
+    function removeFromCart(itemId) {
+        const cart = JSON.parse(localStorage.getItem("cart")) || [];
+        const newCart = cart.filter(item => item.id !== itemId);
+        localStorage.setItem("cart", JSON.stringify(newCart));
         updateCartDisplay();
     }
 
@@ -158,25 +311,31 @@ document.addEventListener("DOMContentLoaded", () => {
         return true;
     }
 
-    function updateCartDisplay() {
-        const cartCount = document.querySelector(".cart-count");
-        if (cartCount) {
-            const cart = JSON.parse(localStorage.getItem("cart")) || [];
-            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-            cartCount.textContent = totalItems || '';
-        }
-    }
-
-    function showMessage(message, type = 'info') {
-        const messageDiv = document.createElement('div');
-        messageDiv.className = `message ${type}`;
-        messageDiv.textContent = message;
-        document.body.appendChild(messageDiv);
-        setTimeout(() => messageDiv.remove(), 3000);
-    }
-
-    // Initialize cart display
     updateCartDisplay();
+
+    const checkoutBtn = document.getElementById("checkout-btn");
+    if (checkoutBtn) {
+        checkoutBtn.addEventListener("click", () => {
+            const addressForm = document.getElementById("address-form");
+            if (!addressForm.checkValidity()) {
+                alert("Please fill in all required delivery details!");
+                return;
+            }
+
+            const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
+            const cart = JSON.parse(localStorage.getItem("cart")) || [];
+            
+            if (cart.length === 0) {
+                alert("Your cart is empty!");
+                return;
+            }
+
+            // Here you would typically send the order to your backend
+            alert("Order placed successfully! 🎉");
+            localStorage.removeItem("cart");
+            window.location.href = "index.html";
+        });
+    }
 
     // Fetch menu items from the backend
     fetch("/api/menu")
@@ -402,24 +561,70 @@ if (document.querySelector(".cart-items")) {
 // Login and logout functionality
 const loginForm = document.getElementById("loginForm");
 if (loginForm) {
-    loginForm.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const username = document.getElementById("username").value;
-        const password = document.getElementById("password").value;
-
-        const validUsername = "ajay";
-        const validPassword = "password123";
-
-        if (username === validUsername && password === validPassword) {
-            localStorage.setItem("isLoggedIn", "true");
-            localStorage.setItem("username", username);
-            showMessage("Login successful! Redirecting to home... 🚀😊", 'success');
-            window.location.href = "index.html";
-        } else {
-            showMessage("Invalid username or password! 😔", 'error');
-        }
-    });
+    loginForm.addEventListener("submit", handleLogin);
 }
+
+function handleLogin(event) {
+    event.preventDefault();
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    const messageElement = document.getElementById('loginMessage');
+
+    // Simple validation
+    if (!username || !password) {
+        showFormMessage('Please fill in all fields', 'error');
+        return false;
+    }
+
+    // Here you would typically make an API call to your backend
+    // For demo purposes, we'll use a simple check
+    if (username === 'demo' && password === 'demo123') {
+        showFormMessage('Login successful! Redirecting...', 'success');
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('username', username);
+        setTimeout(() => {
+            window.location.href = 'index.html';
+        }, 1500);
+    } else {
+        showFormMessage('Invalid username or password', 'error');
+    }
+
+    return false;
+}
+
+function showFormMessage(message, type) {
+    const messageElement = document.getElementById('loginMessage');
+    if (messageElement) {
+        messageElement.textContent = message;
+        messageElement.className = `form-message ${type}`;
+    }
+}
+
+function checkLoginStatus() {
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    const logoutBtn = document.getElementById('logout');
+    const loginBtn = document.querySelector('a[href="login.html"]');
+
+    if (isLoggedIn) {
+        if (loginBtn) loginBtn.style.display = 'none';
+        if (logoutBtn) {
+            logoutBtn.style.display = 'block';
+            logoutBtn.addEventListener('click', handleLogout);
+        }
+    } else {
+        if (loginBtn) loginBtn.style.display = 'block';
+        if (logoutBtn) logoutBtn.style.display = 'none';
+    }
+}
+
+function handleLogout(event) {
+    event.preventDefault();
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('username');
+    window.location.href = 'login.html';
+}
+
+checkLoginStatus();
 
 // Parallax effect for hero section
 document.addEventListener("scroll", () => {

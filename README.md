@@ -1,4 +1,4 @@
-# Zayka - Modern Food Ordering Website 🍽️
+# Ajay's Restaurant - Modern Food Ordering Website 🍽️
 
 A beautiful and responsive food ordering website built with modern web technologies.
 
@@ -26,12 +26,12 @@ A beautiful and responsive food ordering website built with modern web technolog
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/ajaybadolax/zayka.git
+git clone https://github.com/ajaybadola/restaurant.git
 ```
 
 2. Install dependencies:
 ```bash
-cd zayka
+cd restaurant
 npm install
 ```
 
@@ -64,5 +64,5 @@ MIT License - feel free to use this project for learning or commercial purposes.
 ## Author 👨‍💻
 
 Ajay Badola
-- GitHub: [@ajaybadolax](https://github.com/ajaybadolax)
+- GitHub: [@ajaybadola](https://github.com/ajaybadola)
 - Email: ajaybadolax@gmail.com

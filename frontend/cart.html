@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart - Ajay's Restaurant</title>
+    <link rel="stylesheet" href="assets/zayka.css">
+    <script src="assets/script.js" defer></script>
+</head>
+<body>
+    <header class="header">
+        <h1>Ajay's Restaurant 🍽️</h1>
+        <nav class="nav">
+            <a href="index.html" class="nav-link">Home 🌟</a>
+            <a href="menu.html" class="nav-link">Menu 🍽️</a>
+            <a href="cart.html" class="nav-link active cart-link">Cart 🛒 <span class="cart-count"></span></a>
+            <a href="login.html" class="nav-link">Login 🔑</a>
+        </nav>
+    </header>
+
+    <section class="cart-section animate__animated animate__fadeInUp">
+        <h2>Your Cart 🛒</h2>
+        <div class="cart-container">
+            <div class="cart-items" id="cart-items">
+                <!-- Cart items will be loaded dynamically here -->
+            </div>
+            
+            <div class="cart-summary">
+                <h3>Order Summary</h3>
+                <div class="summary-item">
+                    <span>Subtotal:</span>
+                    <span id="subtotal">₹0.00</span>
+                </div>
+                <div class="summary-item">
+                    <span>Delivery Fee:</span>
+                    <span id="delivery-fee">₹40.00</span>
+                </div>
+                <div class="summary-item">
+                    <span>Taxes (5%):</span>
+                    <span id="taxes">₹0.00</span>
+                </div>
+                <div class="summary-item total">
+                    <span>Total:</span>
+                    <span id="total">₹0.00</span>
+                </div>
+
+                <div class="delivery-address">
+                    <h3>Delivery Address</h3>
+                    <form id="address-form">
+                        <input type="text" placeholder="Full Name" required>
+                        <input type="tel" placeholder="Phone Number" required>
+                        <textarea placeholder="Delivery Address" required></textarea>
+                        <input type="text" placeholder="Landmark (Optional)">
+                    </form>
+                </div>
+
+                <div class="payment-options">
+                    <h3>Payment Method</h3>
+                    <div class="payment-method">
+                        <label>
+                            <input type="radio" name="payment" value="cod" checked>
+                            Cash on Delivery 💵
+                        </label>
+                    </div>
+                    <div class="payment-method">
+                        <label>
+                            <input type="radio" name="payment" value="online">
+                            Pay Online 💳
+                        </label>
+                    </div>
+                </div>
+
+                <button id="checkout-btn" class="checkout-btn">
+                    Place Order 🚀
+                </button>
+            </div>
+        </div>
+
+        <div class="empty-cart" id="empty-cart" style="display: none;">
+            <h3>Your cart is empty 😢</h3>
+            <p>Add some delicious items from our menu!</p>
+            <a href="menu.html" class="cta-button">Browse Menu 🍽️</a>
+        </div>
+    </section>
+
+    <!-- WhatsApp Contact Button -->
+    <a href="https://wa.me/7818855942" class="whatsapp-button" target="_blank">
+        Order on WhatsApp 📱
+    </a>
+
+    <footer class="footer animate__animated animate__fadeInUp">
+        <p>© SAMPLE PROJECT BY AJAYBADOLA 2025 🌈</p>
+    </footer>
+</body>
+</html>
